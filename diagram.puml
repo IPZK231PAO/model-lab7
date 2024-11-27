@@ -1,0 +1,59 @@
+@startuml
+
+' Define the Observer interface
+interface Observer {
+    + update(message: String)
+}
+
+' Define the Subject class
+class Subject {
+    - observers: List<Observer>
+    + attach(observer: Observer)
+    + detach(observer: Observer)
+    + notifyObservers(message: String)
+}
+
+' Define the MessageServer class
+class MessageServer {
+    - messages: List<String>
+    + registerObserver(observer: Observer)
+    + sendMessage(message: String)
+    + removeObserver(observer: Observer)
+    + notifyObservers(message: String)
+}
+
+' Define the User class
+class User {
+    - userID: String
+    - receivedMessages: List<String>
+    + update(message: String)
+}
+
+' Define the NotificationService class
+class NotificationService {
+    - serviceName: String
+    - log: List<String>
+    + update(message: String)
+}
+
+' Define the DatabaseLibrary class
+class DatabaseLibrary {
+    + connectToDatabase()
+    + saveMessage(message: String)
+    + fetchMessages(): List<String>
+}
+
+' Define the MongoDB class
+class MongoDB {
+    + storeData(data: String)
+    + retrieveData(query: String): String
+}
+
+' Relationships between classes
+Observer <|.. User
+Observer <|.. NotificationService
+MessageServer o-- "1..*" Observer
+Subject <|-- MessageServer
+DatabaseLibrary o-- MongoDB
+
+@enduml
